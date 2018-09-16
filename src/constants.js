@@ -14,9 +14,15 @@ const tipoProductos = {
 }
 
 // Reguladores de producto
-const EXPIRY_RATE = 1
-const EXPIRY_INITIAL_FACTOR = 1
-const EXPIRY_AFTER_FACTOR = 2
+const QUALITY_RATE = 1
+const QUALITY_INITIAL_FACTOR = 1
+const QUALITY_EXPIRED_FACTOR = 2
 const EXPIRY_LIMIT = 0
 const QUALITY_MIN = 0
 const QUALITY_MAX = 50
+
+const TARTA_EXPIRY_RATE = 2
+
+const VIP_QLTY_INITIAL_RATE = 1
+const VIP_QLTY_MIDDLE_RATE = 2
+const VIP_QLTY_LAST_RATE = 3

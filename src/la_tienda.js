@@ -56,18 +56,19 @@ function updateExpiration (_product) {
 
 // Actualiza la calidad
 function updateQuality (_product) {
-  let expiryFactor = (_product.caducidad > EXPIRY_LIMIT) ? EXPIRY_INITIAL_FACTOR : EXPIRY_AFTER_FACTOR
+  // Ajusta el ratio de disminucion de calidad en funcion de si se ha superado el limite indicado de caducidad
+  let expiryFactor = (_product.caducidad > EXPIRY_LIMIT) ? QUALITY_INITIAL_FACTOR : QUALITY_EXPIRED_FACTOR
 
-  _product.valor -= EXPIRY_RATE * expiryFactor
+  _product.valor -= QUALITY_RATE * expiryFactor
 
   checkQuality(_product)
 }
 
-// Comprueba que la calidad este dentro de los limites especificados y la ajusta
+// Comprueba que la calidad este dentro de los limites especificados y de no ser así la ajusta
 function checkQuality (_product) {
   if (_product.valor > QUALITY_MAX) {
     _product.valor = QUALITY_MAX
-    console.log('El producto ' + _product.name + 'contenía una calidad mayor de la permitida y ha sido ajustado')
+    console.log('El producto ' + _product.name + ' contenía una calidad mayor de la permitida y ha sido ajustado')
   }
 
   if (_product.valor < QUALITY_MIN) {
@@ -78,24 +79,32 @@ function checkQuality (_product) {
 // Actualiza el array de productos
 function actualizarProductos () {
   for (var i = 0; i < productos.length; i++) {
-    let texto = productos[i].nombre
+    let producto = productos[i]
+    let texto = producto.nombre
+
+    let customProduct
 
     switch (getTypeOfProduct(texto)) {
       case tipoProductos.GENERICO:
-        updateProduct(productos[i])
+        updateProduct(producto)
         break
       case tipoProductos.ENTRADA_VIP:
-
+        customProduct = new EntradaVIP(producto)
         break
       case tipoProductos.QUESO_AZUL:
-
+        customProduct = new QuesoAzul(producto)
         break
       case tipoProductos.TARTA:
-
+        customProduct = new Tarta(producto)
         break
       case tipoProductos.VINO:
-
+        customProduct = new Vino(producto)
         break
+    }
+
+    if (getTypeOfProduct(texto) !== tipoProductos.GENERICO) {
+      customProduct.updateProduct()
+      productos[i] = customProduct
     }
   }
 }
