@@ -1,0 +1,45 @@
+describe('Tests de clase Vino', function () {
+  it('Class assignment should keep the properties intact', function () {
+    let producto = new Producto('foo', 0, 0)
+    let vino = new Vino(producto)
+    expect(vino).toEqual(producto)
+  })
+  it('Vino after updateProduct should be caducidad - 1 and valor + 1', function () {
+    let producto = new Producto('foo', 15, 10)
+    let vino = new Vino(producto)
+    vino.updateProduct()
+    expect(vino.caducidad).toEqual(producto.caducidad - 1)
+    expect(vino.valor).toEqual(producto.valor + 1)
+  })
+  it('Vino after updateProduct with caducidad <= 0 should be caducidad - 1 and valor + 2', function () {
+    let producto = new Producto('foo', 0, 30)
+    let vino = new Vino(producto)
+    vino.updateProduct()
+    expect(vino.caducidad).toEqual(producto.caducidad - 1)
+    expect(vino.valor).toEqual(producto.valor + 2)
+  })
+  it('Caducidad after updateExpiration should be caducidad - 1', function () {
+    let producto = new Producto('foo', 0, 0)
+    let vino = new Vino(producto)
+    vino.updateExpiration()
+    expect(vino.caducidad).toEqual(producto.caducidad - 1)
+  })
+  it('Valor after updateQuality with caducidad <= 0 should be valor + 2', function () {
+    let producto = new Producto('foo', 0, 0)
+    let vino = new Vino(producto)
+    vino.updateQuality()
+    expect(vino.valor).toEqual(producto.valor + 2)
+  })
+  it('Valor after checkQuality with valor > 50 should be MAX (50)', function () {
+    let producto = new Producto('foo', 11, 80)
+    let vino = new Vino(producto)
+    vino.checkQuality()
+    expect(vino.valor).toEqual(QUALITY_MAX)
+  })
+  it('Valor after checkQuality with valor < 0 should be MIN (0)', function () {
+    let producto = new Producto('foo', 11, -5)
+    let vino = new Vino(producto)
+    vino.checkQuality()
+    expect(vino.valor).toEqual(QUALITY_MIN)
+  })
+})

@@ -1,0 +1,45 @@
+describe('Tests de clase ProductoGenerico', function () {
+  it('Class assignment should keep the properties intact', function () {
+    let producto = new Producto('foo', 0, 0)
+    let prodGenerico = new ProductoGenerico(producto)
+    expect(prodGenerico).toEqual(producto)
+  })
+  it('ProductoGenerico after updateProduct should be caducidad - 1 and valor - 1', function () {
+    let producto = new Producto('foo', 15, 10)
+    let prodGenerico = new ProductoGenerico(producto)
+    prodGenerico.updateProduct()
+    expect(prodGenerico.caducidad).toEqual(producto.caducidad - 1)
+    expect(prodGenerico.valor).toEqual(producto.valor - 1)
+  })
+  it('ProductoGenerico after updateProduct with caducidad <= 0 should be caducidad - 1 and valor - 2', function () {
+    let producto = new Producto('foo', 0, 30)
+    let prodGenerico = new ProductoGenerico(producto)
+    prodGenerico.updateProduct()
+    expect(prodGenerico.caducidad).toEqual(producto.caducidad - 1)
+    expect(prodGenerico.valor).toEqual(producto.valor - 2)
+  })
+  it('Caducidad after updateExpiration should be caducidad - 1', function () {
+    let producto = new Producto('foo', 0, 0)
+    let prodGenerico = new ProductoGenerico(producto)
+    prodGenerico.updateExpiration()
+    expect(prodGenerico.caducidad).toEqual(producto.caducidad - 1)
+  })
+  it('Valor after updateQuality with caducidad <= 0 should be MIN (0)', function () {
+    let producto = new Producto('foo', 0, 0)
+    let prodGenerico = new ProductoGenerico(producto)
+    prodGenerico.updateQuality()
+    expect(prodGenerico.valor).toEqual(QUALITY_MIN)
+  })
+  it('Valor after checkQuality with valor > 50 should be MAX (50)', function () {
+    let producto = new Producto('foo', 11, 80)
+    let prodGenerico = new ProductoGenerico(producto)
+    prodGenerico.checkQuality()
+    expect(prodGenerico.valor).toEqual(QUALITY_MAX)
+  })
+  it('Valor after checkQuality with valor < 0 should be MIN (0)', function () {
+    let producto = new Producto('foo', 11, -5)
+    let prodGenerico = new ProductoGenerico(producto)
+    prodGenerico.checkQuality()
+    expect(prodGenerico.valor).toEqual(QUALITY_MIN)
+  })
+})
