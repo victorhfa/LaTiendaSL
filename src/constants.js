@@ -2,7 +2,7 @@
 const ENTRADA_VIP_MATCH = [/Acceso VIP/]
 const QUESO_AZUL_MATCH = [/Queso Azul/]
 const TARTA_MATCH = [/Tarta/]
-const VINO_MATCH = [/Botella Vino/]
+const VINO_MATCH = [/Vino/]
 
 // Tipos de productos
 const tipoProductos = {

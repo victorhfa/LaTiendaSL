@@ -10,6 +10,7 @@ importJS('constants.js')
 importJS('Producto.js')
 
 importJS('EntradaVIP.js')
+importJS('ProductoGenerico.js')
 importJS('QuesoAzul.js')
 importJS('Tarta.js')
 importJS('Vino.js')
@@ -43,36 +44,21 @@ function getTypeOfProduct (_textToMatch) {
   return tipoProductos.GENERICO
 }
 
-// Actualiza el producto
-function updateProduct (_product) {
-  updateQuality(_product)
-  updateExpiration(_product)
-}
-
-// Actualiza la caducidad
-function updateExpiration (_product) {
-  _product.caducidad--
-}
-
-// Actualiza la calidad
-function updateQuality (_product) {
-  // Ajusta el ratio de disminucion de calidad en funcion de si se ha superado el limite indicado de caducidad
-  let expiryFactor = (_product.caducidad > EXPIRY_LIMIT) ? QUALITY_INITIAL_FACTOR : QUALITY_EXPIRED_FACTOR
-
-  _product.valor -= QUALITY_RATE * expiryFactor
-
-  checkQuality(_product)
-}
-
-// Comprueba que la calidad este dentro de los limites especificados y de no ser así la ajusta
-function checkQuality (_product) {
-  if (_product.valor > QUALITY_MAX) {
-    _product.valor = QUALITY_MAX
-    console.log('El producto ' + _product.name + ' contenía una calidad mayor de la permitida y ha sido ajustado')
+function checkValidProducto (_product) {
+  if (typeof _product.nombre !== 'string') {
+    throw { msg: 'Nombre ' + _product.nombre + ' should be string', code: 10001 }
   }
-
-  if (_product.valor < QUALITY_MIN) {
-    _product.valor = QUALITY_MIN
+  if (typeof _product.caducidad !== 'number') {
+    throw { msg: 'Caducidad ' + _product.caducidad + ' should be number', code: 10002 }
+  }
+  if (typeof _product.valor !== 'number') {
+    throw { msg: 'Valor ' + _product.valor + ' should be number', code: 10003 }
+  }
+  if (!Number.isInteger(_product.caducidad)) {
+    throw { msg: 'Caducidad ' + _product.caducidad + ' should be integer', code: 10004 }
+  }
+  if (!Number.isInteger(_product.valor)) {
+    throw { msg: 'Valor ' + _product.valor + ' should be integer', code: 10005 }
   }
 }
 
@@ -84,27 +70,34 @@ function actualizarProductos () {
 
     let customProduct
 
-    switch (getTypeOfProduct(texto)) {
-      case tipoProductos.GENERICO:
-        updateProduct(producto)
-        break
-      case tipoProductos.ENTRADA_VIP:
-        customProduct = new EntradaVIP(producto)
-        break
-      case tipoProductos.QUESO_AZUL:
-        customProduct = new QuesoAzul(producto)
-        break
-      case tipoProductos.TARTA:
-        customProduct = new Tarta(producto)
-        break
-      case tipoProductos.VINO:
-        customProduct = new Vino(producto)
-        break
-    }
+    try {
+      // Comprueba que el producto tenga el formato correcto
+      checkValidProducto(producto)
 
-    if (getTypeOfProduct(texto) !== tipoProductos.GENERICO) {
+      // Asigna el producto a una clase distinta según su tipo
+      switch (getTypeOfProduct(texto)) {
+        case tipoProductos.GENERICO:
+          customProduct = new ProductoGenerico(producto)
+          break
+        case tipoProductos.ENTRADA_VIP:
+          customProduct = new EntradaVIP(producto)
+          break
+        case tipoProductos.QUESO_AZUL:
+          customProduct = new QuesoAzul(producto)
+          break
+        case tipoProductos.TARTA:
+          customProduct = new Tarta(producto)
+          break
+        case tipoProductos.VINO:
+          customProduct = new Vino(producto)
+          break
+      }
+
       customProduct.updateProduct()
       productos[i] = customProduct
+    } catch (exception) {
+      console.log(exception.msg)
+      console.log('   > The product ' + texto + ' won\'t be updated')
     }
   }
 }

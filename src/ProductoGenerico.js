@@ -1,4 +1,4 @@
-class Tarta extends Producto {
+class ProductoGenerico extends Producto {
   constructor (_producto) {
     super(_producto.nombre, _producto.caducidad, _producto.valor)
   }
@@ -18,7 +18,7 @@ class Tarta extends Producto {
   updateQuality () {
     let expiryFactor = (this.caducidad > EXPIRY_LIMIT) ? QUALITY_INITIAL_FACTOR : QUALITY_EXPIRED_FACTOR
 
-    this.valor -= TARTA_EXPIRY_RATE * expiryFactor
+    this.valor -= QUALITY_RATE * expiryFactor
 
     this.checkQuality()
   }

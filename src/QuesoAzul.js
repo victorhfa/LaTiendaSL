@@ -22,7 +22,7 @@ class QuesoAzul extends Producto {
   checkQuality () {
     if (this.valor < QUALITY_MIN) {
       this.valor = QUALITY_MIN
-      console.log('El producto ' + this.name + ' contenía una calidad menor de la permitida y ha sido ajustado')
+      console.log('The product ' + this.name + ' had a lower quality than allowed and has been modified')
     }
   }
 }
