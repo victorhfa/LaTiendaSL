@@ -1,55 +1,58 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
 
-<title>Level Test</title>
+  <title>Level Test</title>
 
-<script type="text/javascript" src="lib/jquery-1.7.1/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="src/la_tienda.js"></script>
+  <script type="text/javascript" src="lib/jquery-1.7.1/jquery-1.7.1.js"></script>
+  <script type="text/javascript" src="src/la_tienda.js"></script>
 
-<script type="text/javascript">
-  $( document ).ready(function() {
+  <script type="text/javascript">
+    $(window).on('load', function () {
 
-    $('body').append('<p>Data</p>');
-
-    
-    productos.push(new Producto('Botella Vino Tinto', 2, 0));
-    productos.push(new Producto('Queso Azul', 0, 80));
-    productos.push(new Producto('Colonia ', 5, 7));     
-    productos.push(new Producto('Acceso VIP Eric Mauller', 15, 20));
-    productos.push(new Producto('+5 Macarrones', 10, 20));
-    productos.push(new Producto('Queso Azul', -1, 80));    
-    productos.push(new Producto('Acceso VIP Eric Mauller', 10, 47));
-    productos.push(new Producto('Acceso VIP Eric Mauller', 5, 47));
+      $('body').append('<p>Data</p>');
 
 
-    /// La tarta de manzana aún no está implementada.
-    productos.push(new Producto('Tarta de manzana', 3, 6));
+      productos.push(new Producto('Botella Vino Tinto', 2, 0));
+      productos.push(new Producto('Queso Azul', 0, 80));
+      productos.push(new Producto('Colonia ', 5, 7));
+      productos.push(new Producto('Acceso VIP Eric Mauller', 15, 20));
+      productos.push(new Producto('+5 Macarrones', 10, 20));
+      productos.push(new Producto('Queso Azul', -1, 80));
+      productos.push(new Producto('Acceso VIP Eric Mauller', 10, 47));
+      productos.push(new Producto('Acceso VIP Eric Mauller', 5, 47));
 
-    var dias = 2;
 
-    for (var i = 0; i < dias; i++) {
-      mostrarCabecera(i);
-      mostrarProductos(i);
-      actualizarProductos();
-    }
+      /// La tarta de manzana aún no está implementada.
+      productos.push(new Producto('Tarta de manzana', 3, 6));
 
-    function mostrarCabecera(dia) {
-      $('body').append('<p>-------- dia ' + dia + ' --------</p>');
-    }
+      var dias = 21;
 
-    function mostrarProductos(dia) {
-      $('body').append('<p>nombre, caducidad, valor</p>');
-      for (var j = 0; j < productos.length; j++) {
-        var producto = productos[j];
-        $('body').append('<p>' + producto.nombre + ', ' + producto.caducidad + ', ' + producto.valor + '</p>');
+      for (var i = 0; i < dias; i++) {
+        mostrarCabecera(i);
+        mostrarProductos(i);
+        actualizarProductos();
       }
-      $('body').append('<br />');
-    }
 
-  });
-</script>
+      function mostrarCabecera(dia) {
+        $('body').append('<p>-------- dia ' + dia + ' --------</p>');
+      }
+
+      function mostrarProductos(dia) {
+        $('body').append('<p>nombre, caducidad, valor</p>');
+        for (var j = 0; j < productos.length; j++) {
+          var producto = productos[j];
+          $('body').append('<p>' + producto.nombre + ', ' + producto.caducidad + ', ' + producto.valor + '</p>');
+        }
+        $('body').append('<br />');
+      }
+
+    });
+  </script>
 </head>
+
 <body>
 </body>
+
 </html>
